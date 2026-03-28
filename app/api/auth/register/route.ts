@@ -62,9 +62,11 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error('Register error:', error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('Register error:', errorMessage);
+    console.error('Full error:', error);
     return NextResponse.json(
-      { error: 'An error occurred during registration' },
+      { error: `Registration failed: ${errorMessage}` },
       { status: 500 }
     );
   }
